@@ -1,0 +1,20 @@
+.navbar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  color: #fff;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media screen and (width >= 960px) {
+  .navbar.navbar {
+    padding: 10px 10px 10px 20px;
+  }
+}
