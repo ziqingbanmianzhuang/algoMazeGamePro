@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import classes from "./title.module.scss";
 import { CircleUser } from "lucide-react";
+
 import { useAppSelector } from "../../../Store/hooks";
+import ThemeButton from "../theme-button/theme-button";
 
 interface Props {
   title: string;
@@ -20,16 +22,19 @@ function Title({ title }: Props) {
         {/* 项目标题 */}
         <h1 className={classes.titleH1}>{title}</h1>
       </div>
-      {/* 项目个人中心 ｜ 登陆中心 */}
-      {isLogin ? (
-        <Link to="/user" className={classes.user}>
-          <CircleUser />
-        </Link>
-      ) : (
-        <Link to="/login" className={classes.user}>
-          <CircleUser />
-        </Link>
-      )}
+      <div>
+        {/* 项目个人中心 ｜ 登陆中心 */}
+        {isLogin ? (
+          <Link to="/user" className={classes.user}>
+            <CircleUser />
+          </Link>
+        ) : (
+          <Link to="/login" className={classes.user}>
+            <CircleUser />
+          </Link>
+        )}
+        <ThemeButton />
+      </div>
     </h1>
   );
 }
