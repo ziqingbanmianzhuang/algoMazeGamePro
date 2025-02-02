@@ -28,3 +28,15 @@
     }
   }
 }
+
+[data-theme="dark"] {
+  .title img {
+    filter: invert(1);
+  }
+  .title .titleH1 {
+    filter: invert(1);
+  }
+  .user svg {
+    filter: invert(1);
+  }
+}
