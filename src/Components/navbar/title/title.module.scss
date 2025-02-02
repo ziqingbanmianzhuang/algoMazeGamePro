@@ -1,0 +1,30 @@
+.title {
+  display: flex;
+  width: calc(100vw - 50px);
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+    .titleH1 {
+      margin: 0;
+    }
+    .logo {
+      margin-right: 4px;
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+
+  .user {
+    margin-right: 4px;
+    svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
