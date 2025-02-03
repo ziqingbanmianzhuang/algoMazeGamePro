@@ -1,21 +1,26 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AppState } from "../Types/interfaces";
+import { AppState, Theme, UserInfo } from "../Types/interfaces";
 
 const initialState: AppState = {
-  isLogin: false,
+  userInfo: null,
+  theme: null,
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setIsLogin: (state, action: PayloadAction<boolean>) => {
-      state.isLogin = action.payload;
+    setUserInfo: (state, action: PayloadAction<UserInfo>) => {
+      state.userInfo = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
+      document.documentElement.setAttribute("data-theme", action.payload);
     },
   },
 });
 
-export const { setIsLogin } = appSlice.actions;
+export const { setUserInfo, setTheme } = appSlice.actions;
 export default appSlice.reducer;

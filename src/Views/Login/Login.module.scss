@@ -92,3 +92,14 @@ a {
 
   color: #abc1ee;
 }
+
+.switchForm {
+  margin-top: 10px;
+  text-align: center;
+  color: #1890ff;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

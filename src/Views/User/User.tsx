@@ -1,8 +1,10 @@
+import { useAppSelector } from "../../Store/hooks";
+
 import classes from "./User.module.scss";
 
 const User = () => {
+  const userInfo = useAppSelector((state) => state.app.userInfo);
   const userProfile = {
-    nickname: "守护世界的半面妆",
     highScore: 9999,
     level: 42,
     achievements: 15,
@@ -13,11 +15,9 @@ const User = () => {
       <div className={classes.profileContainer}>
         <div className={classes.profileHeader}>
           <div className={classes.avatarContainer}>
-            <div className={classes.avatar}>
-              {userProfile.nickname.charAt(0)}
-            </div>
+            <div className={classes.avatar}>{userInfo?.name.charAt(0)}</div>
           </div>
-          <h1 className={classes.nickname}>{userProfile.nickname}</h1>
+          <h1 className={classes.nickname}>{userInfo?.name}</h1>
         </div>
 
         <div className={classes.statsContainer}>

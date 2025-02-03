@@ -1,38 +1,72 @@
 import { useState } from "react";
-
 import classes from "./Login.module.scss";
-
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { setUserInfo } from "../../Store/app.slice";
 
 const Login = () => {
-  let [name, setName] = useState("");
-
-  let [pwd, setPwd] = useState("");
-
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((store) => store.app.userInfo);
   const navigate = useNavigate();
 
-  let shuliang = (event: any) => {
-    let name = event.target.value;
+  // Form state
+  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    pwd: "",
+    confirmPwd: "", // 用于注册时确认密码
+  });
 
-    setName(name);
+  // 处理输入变化
+  const handleInputChange = (event: any) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  let shuliang2 = (event: any) => {
-    let name = event.target.value;
-
-    setPwd(name);
-  };
-
-  let loginclick = () => {
+  // 登录处理
+  const handleLogin = () => {
+    const { name, pwd } = formData;
     if (name === "" || pwd === "") {
       alert("用户名或密码不能为空");
+      return;
+    }
+    if (userInfo?.name !== name || userInfo?.pwd !== pwd) {
+      alert("用户名或者密码错误");
+      setFormData({ name: "", pwd: "", confirmPwd: "" }); // 清空表单
+      return;
+    }
+    alert("登录成功");
+    navigate("/");
+  };
 
+  // 注册处理
+  const handleRegister = () => {
+    const { name, pwd, confirmPwd } = formData;
+
+    if (name === "" || pwd === "" || confirmPwd === "") {
+      alert("所有字段都必须填写");
       return;
     }
 
-    alert("登录成功");
+    if (pwd !== confirmPwd) {
+      alert("两次输入的密码不一致");
+      return;
+    }
 
-    navigate("/");
+    dispatch(
+      setUserInfo({
+        name,
+        pwd,
+      })
+    );
+
+    // 这里可以添加注册逻辑
+    alert("注册成功");
+    setIsLoginForm(true); // 注册成功后切换到登录表单
+    setFormData({ name: "", pwd: "", confirmPwd: "" }); // 清空表单
   };
 
   return (
@@ -44,22 +78,48 @@ const Login = () => {
           <div className={classes.formWrapper}>
             <input
               type="text"
-              name="username"
+              name="name"
               placeholder="username"
               className={classes.inputItem}
-              onChange={(event) => shuliang(event)}
+              value={formData.name}
+              onChange={handleInputChange}
             />
 
             <input
               type="password"
-              name="password"
+              name="pwd"
               placeholder="password"
               className={classes.inputItem}
-              onChange={(event) => shuliang2(event)}
+              value={formData.pwd}
+              onChange={handleInputChange}
             />
 
-            <div className={classes.btn} onClick={() => loginclick()}>
-              登录
+            {!isLoginForm && (
+              <input
+                type="password"
+                name="confirmPwd"
+                placeholder="confirm password"
+                className={classes.inputItem}
+                value={formData.confirmPwd}
+                onChange={handleInputChange}
+              />
+            )}
+
+            <div
+              className={classes.btn}
+              onClick={isLoginForm ? handleLogin : handleRegister}
+            >
+              {isLoginForm ? "登录" : "注册"}
+            </div>
+
+            <div
+              className={classes.switchForm}
+              onClick={() => {
+                setIsLoginForm(!isLoginForm);
+                setFormData({ name: "", pwd: "", confirmPwd: "" });
+              }}
+            >
+              {isLoginForm ? "没有账号？点击注册" : "已有账号？点击登录"}
             </div>
           </div>
         </div>

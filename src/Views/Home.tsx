@@ -1,15 +1,15 @@
 import Navbar from "../Components/navbar/navbar";
 import { Link } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "../Store/hooks";
+import { useAppSelector } from "../Store/hooks";
 
 import classes from "./Home.module.scss";
 function Index() {
-  const isLogin = useAppSelector((state) => state.app.isLogin);
+  const userInfo = useAppSelector((state) => state.app.userInfo);
   return (
     <>
       <Navbar title="基于React和搜索算法的迷宫游戏设计与实现" />
-      {isLogin ? (
+      {userInfo !== null ? (
         <Link to="/gameDescription">
           <img
             className={classes.homeImage}
