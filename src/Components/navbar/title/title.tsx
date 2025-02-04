@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classes from "./title.module.scss";
 import { CircleUser } from "lucide-react";
 
@@ -10,7 +11,18 @@ interface Props {
 }
 
 function Title({ title }: Props) {
-  const isLogin = useAppSelector((state) => state.app.isLogin);
+  const navigate = useNavigate();
+
+  const userInfo = useAppSelector((state) => state.app.userInfo);
+
+  const handleProfile = () => {
+    if (userInfo !== null) {
+      navigate("/user");
+    } else {
+      localStorage.setItem("redirectAfterLogin", "/user");
+      navigate("/login");
+    }
+  };
   return (
     <h1 className={classes.title} data-testid="title">
       <div className={classes.titleWrapper}>
@@ -24,15 +36,9 @@ function Title({ title }: Props) {
       </div>
       <div>
         {/* 项目个人中心 ｜ 登陆中心 */}
-        {isLogin ? (
-          <Link to="/user" className={classes.user}>
-            <CircleUser />
-          </Link>
-        ) : (
-          <Link to="/login" className={classes.user}>
-            <CircleUser />
-          </Link>
-        )}
+        <a className={classes.user} onClick={handleProfile}>
+          <CircleUser />
+        </a>
         <ThemeButton />
       </div>
     </h1>

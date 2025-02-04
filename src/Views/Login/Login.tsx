@@ -39,7 +39,9 @@ const Login = () => {
       return;
     }
     alert("登录成功");
-    navigate("/");
+    const redirectUrl = localStorage.getItem("redirectAfterLogin") || "/";
+    localStorage.removeItem("redirectAfterLogin"); // 登录后清除存储的目标页面
+    navigate(redirectUrl); // 跳转到目标页面
   };
 
   // 注册处理
