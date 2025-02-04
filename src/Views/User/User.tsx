@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 import { useAppSelector } from "../../Store/hooks";
 
 import classes from "./User.module.scss";
 
 const User = () => {
+  const navigate = useNavigate();
+
   const userInfo = useAppSelector((state) => state.app.userInfo);
   const userProfile = {
     highScore: 9999,
@@ -10,6 +14,13 @@ const User = () => {
     achievements: 15,
   };
 
+  const navigateToHome = () => {
+    navigate("/");
+  };
+
+  const navigateToGame = () => {
+    navigate("/gameDescription");
+  };
   return (
     <div className={classes.profileCenter}>
       <div className={classes.profileContainer}>
@@ -36,6 +47,10 @@ const User = () => {
             <div className={classes.statValue}>{userProfile.achievements}</div>
           </div>
         </div>
+      </div>
+      <div className={classes.buttonWrapper}>
+        <button onClick={navigateToHome}>返回主页</button>
+        <button onClick={navigateToGame}>开始游戏</button>
       </div>
     </div>
   );
