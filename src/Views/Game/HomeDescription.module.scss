@@ -128,7 +128,7 @@
   .thumbnails {
     display: flex;
     justify-content: space-between; // 使元素均匀分布
-    gap: 0; // 移除间距
+    gap: 20px; // 移除间距
     margin-bottom: 20px;
   }
 }
