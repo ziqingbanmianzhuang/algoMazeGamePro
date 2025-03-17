@@ -6,6 +6,10 @@ import Player1 from "../Player/1Player";
 import Player2 from "../Player/2Player";
 import Player3 from "../Player/3Player";
 
+import Scene1 from "../Scene/1Scene";
+import Scene2 from "../Scene/2Scene";
+import Scene3 from "../Scene/3Scene";
+
 export default function HomeDescription() {
   const navigate = useNavigate();
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(0);
@@ -31,11 +35,23 @@ export default function HomeDescription() {
   ];
 
   const maps = [
-    { name: "经典迷宫", description: "传统的方形迷宫，充满挑战..." },
-    { name: "六边形迷宫", description: "独特的六边形布局，带来全新体验..." },
     {
-      name: "三角形迷宫",
-      description: "三角形网格构成的迷宫，考验空间思维...",
+      name: "沙漠迷宫",
+      description:
+        "沙漠迷宫以温暖的棕黄色调为主题，展现了一个充满挑战的沙漠环境。小型仙人掌和绿洲作为装饰增添了沙漠氛围。",
+      com: <Scene1 />,
+    },
+    {
+      name: "森林迷宫",
+      description:
+        "森林迷宫以其生机勃勃的绿色调为特色，象征自然与生命的活力。深绿色的墙壁代表茂密的树林，而明亮的绿色路径则是森林中蜿蜒的小径。",
+      com: <Scene2 />,
+    },
+    {
+      name: "冰雪迷宫",
+      description:
+        "冰雪迷宫以清新的蓝白色调为主题，呈现出一个寒冷而晶莹的冰雪世界。淡蓝色的迷宫基础与深蓝色的冰墙形成鲜明对比，纯白色的雪地路径清晰可见。",
+      com: <Scene3 />,
     },
   ];
 
@@ -49,7 +65,7 @@ export default function HomeDescription() {
     {
       name: "守护骑士阿凌",
       description:
-        "阿凌是迷宫世界中的守护骑士，橙色的短发下是一双洞察一切的眼睛，总是能以最高效的方式到达目标。‘作为骑士，我不会遗漏任何一个拐角’",
+        "阿凌是迷宫世界中的守护骑士，橙色的短发下是一双洞察一切的眼睛，总是能以最高效的方式到达目标。‘作为骑士，我不会遗漏任何一个拐角。’",
       com: <Player2 />,
     },
     {
@@ -99,7 +115,9 @@ export default function HomeDescription() {
                   classes[`gradient${index + 1}`]
                 } ${selectedMap === index ? classes.selected : ""}`}
                 onClick={() => setSelectedMap(index)}
-              ></div>
+              >
+                {map.com}
+              </div>
             ))}
           </div>
           <div className={classes.description}>
