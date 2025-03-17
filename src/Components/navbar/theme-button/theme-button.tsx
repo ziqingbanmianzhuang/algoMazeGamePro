@@ -34,7 +34,11 @@ function ThemeButton() {
           )
         }
       >
-        {currentTheme === Theme.LIGHT ? <Moon /> : <Sun color="black" />}
+        {currentTheme === Theme.LIGHT ? (
+          <Moon color="rgba(147, 123, 61, 1.00)" />
+        ) : (
+          <Sun color="rgba(245, 183, 146, 1.00)" />
+        )}
       </button>
     </>
   );
