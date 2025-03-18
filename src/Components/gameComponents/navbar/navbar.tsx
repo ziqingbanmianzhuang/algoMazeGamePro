@@ -6,14 +6,18 @@ import { useAppSelector } from "../../../Store/hooks";
 
 import classes from "./navbar.module.scss";
 
+import { useNavigate } from "react-router-dom";
+
 export interface Props {
   title: string;
   children?: React.ReactNode;
 }
 
 function Navbar() {
-  const userInfo = useAppSelector((state) => state.app.userInfo);
+  const navigate = useNavigate();
 
+  const userInfo = useAppSelector((state) => state.app.userInfo);
+  const gameNumber = useAppSelector((state) => state.app.gameNumber);
   return (
     <>
       <div
@@ -33,8 +37,10 @@ function Navbar() {
             alignItems: "center",
           }}
         >
-          <div className={classes.avatar}>{userInfo?.name.charAt(0)}</div>
-          <span style={{ fontSize: "36px" }}>第一关</span>
+          <div className={classes.avatar} onClick={() => navigate("/user")}>
+            {userInfo?.name.charAt(0)}
+          </div>
+          <span style={{ fontSize: "36px" }}>第{gameNumber}关</span>
         </div>
         <AppTour />
         <CellInfo />
