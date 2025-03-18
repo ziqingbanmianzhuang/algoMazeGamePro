@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./HomeDescription.module.scss";
 
@@ -10,7 +10,14 @@ import Scene1 from "../Scene/1Scene";
 import Scene2 from "../Scene/2Scene";
 import Scene3 from "../Scene/3Scene";
 
+import { useAppDispatch } from "@/Store/hooks";
+import { useAppSelector } from "@/Store/hooks";
+import { setGameNumber, setScene, setPlayer, setAlgo } from "@/Store/app.slice";
+
 export default function HomeDescription() {
+  const dispatch = useAppDispatch();
+  const gameNumber = useAppSelector((state) => state.app.gameNumber);
+
   const navigate = useNavigate();
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(0);
   const [selectedMap, setSelectedMap] = useState(0);
@@ -64,26 +71,33 @@ export default function HomeDescription() {
     },
   ];
 
-  const maps = [
-    {
-      name: "沙漠迷宫",
-      description:
-        "沙漠迷宫以温暖的棕黄色调为主题，展现了一个充满挑战的沙漠环境。小型仙人掌和绿洲作为装饰增添了沙漠氛围。",
-      com: <Scene1 />,
-    },
-    {
-      name: "森林迷宫",
-      description:
-        "森林迷宫以其生机勃勃的绿色调为特色，象征自然与生命的活力。深绿色的墙壁代表茂密的树林，而明亮的绿色路径则是森林中蜿蜒的小径。",
-      com: <Scene2 />,
-    },
-    {
-      name: "冰雪迷宫",
-      description:
-        "冰雪迷宫以清新的蓝白色调为主题，呈现出一个寒冷而晶莹的冰雪世界。淡蓝色的迷宫基础与深蓝色的冰墙形成鲜明对比，纯白色的雪地路径清晰可见。",
-      com: <Scene3 />,
-    },
-  ];
+  const maps = useMemo(
+    () => [
+      {
+        name: "沙漠迷宫",
+        description:
+          "沙漠迷宫以温暖的棕黄色调为主题，展现了一个充满挑战的沙漠环境。小型仙人掌和绿洲作为装饰增添了沙漠氛围。",
+        com: <Scene1 />,
+      },
+      {
+        name: "森林迷宫",
+        description:
+          "森林迷宫以其生机勃勃的绿色调为特色，象征自然与生命的活力。深绿色的墙壁代表茂密的树林，而明亮的绿色路径则是森林中蜿蜒的小径。",
+        com: <Scene2 />,
+      },
+      {
+        name: "冰雪迷宫",
+        description:
+          "冰雪迷宫以清新的蓝白色调为主题，呈现出一个寒冷而晶莹的冰雪世界。淡蓝色的迷宫基础与深蓝色的冰墙形成鲜明对比，纯白色的雪地路径清晰可见。",
+        com: <Scene3 />,
+      },
+    ],
+    []
+  );
+
+  // useEffect(() => {
+  // dispatch(setScene(maps[0].name));
+  // }, [selectedMap, maps, dispatch]);
 
   const characters = [
     {
@@ -107,6 +121,9 @@ export default function HomeDescription() {
   ];
 
   const startGame = () => {
+    if (gameNumber == null) {
+      dispatch(setGameNumber("一"));
+    }
     navigate("/startGame");
   };
 
@@ -123,7 +140,10 @@ export default function HomeDescription() {
             <button
               key={index}
               className={selectedAlgorithm === index ? classes.active : ""}
-              onClick={() => setSelectedAlgorithm(index)}
+              onClick={() => {
+                setSelectedAlgorithm(index);
+                dispatch(setAlgo(algorithms[index].name));
+              }}
             >
               {algo.name}
             </button>
@@ -144,7 +164,10 @@ export default function HomeDescription() {
                 className={`${classes.thumbnail} ${
                   classes[`gradient${index + 1}`]
                 } ${selectedMap === index ? classes.selected : ""}`}
-                onClick={() => setSelectedMap(index)}
+                onClick={() => {
+                  setSelectedMap(index);
+                  dispatch(setScene(maps[index].name));
+                }}
               >
                 {map.com}
               </div>
@@ -163,7 +186,10 @@ export default function HomeDescription() {
                 className={`${classes.character} ${
                   classes[`characterGradient${index + 1}`]
                 } ${selectedCharacter === index ? classes.selected : ""}`}
-                onClick={() => setSelectedCharacter(index)}
+                onClick={() => {
+                  setSelectedCharacter(index);
+                  dispatch(setPlayer(characters[index].name));
+                }}
               >
                 {char.com}
               </div>
