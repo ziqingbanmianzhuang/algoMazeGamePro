@@ -14,6 +14,8 @@ import { useAppDispatch } from "@/Store/hooks";
 import { useAppSelector } from "@/Store/hooks";
 import { setGameNumber, setScene, setPlayer, setAlgo } from "@/Store/app.slice";
 
+import { cellSize } from "@/Configs/gameConfig";
+
 export default function HomeDescription() {
   const dispatch = useAppDispatch();
   const gameNumber = useAppSelector((state) => state.app.gameNumber);
@@ -131,6 +133,81 @@ export default function HomeDescription() {
     navigate("/");
   };
 
+  function setMapColorSeries(scene: string) {
+    let cellColors = null;
+    switch (scene) {
+      case "沙漠迷宫": {
+        cellColors = {
+          entry: "rgba(73, 96, 230, 1.00)",
+          path: "rgba(189, 201, 237, 1.00)",
+          pathBorder: "rgba(249, 216, 190, 1.00)",
+          wall: "rgba(121, 87, 62, 1.00)",
+          visited: "rgba(204, 165, 122, 1.00)",
+          visitedMid: "rgba(227, 197, 119, 1.00)",
+          visitedStart: "rgba(234, 222, 171, 1.00)",
+          exit: "rgba(212, 73, 76, 1.00)",
+          clear: "rgba(249, 238, 215, 1.00)",
+        };
+        break;
+      }
+      case "森林迷宫": {
+        cellColors = {
+          entry: "rgba(73, 96, 230, 1.00)",
+          path: "rgba(189, 201, 237, 1.00)",
+          pathBorder: "rgba(49, 81, 19, 1.00)",
+          wall: "rgba(17, 34, 5, 1.00)",
+          visited: "rgba(34, 52, 17, 1.00)",
+          visitedMid: "rgba(34, 52, 17, 1.00)",
+          visitedStart: "rgba(49, 81, 19, 1.00)",
+          exit: "rgba(212, 73, 76, 1.00)",
+          clear: "rgba(82, 135, 44, 1.00)",
+        };
+        break;
+      }
+      case "冰雪迷宫": {
+        cellColors = {
+          entry: "rgba(73, 96, 230, 1.00)",
+          path: "rgba(189, 201, 237, 1.00)",
+          pathBorder: "rgba(233, 249, 251, 1.00)",
+          wall: "rgba(161, 179, 191, 1.00)",
+          visited: "rgba(200, 222, 226, 1.00)",
+          visitedMid: "rgba(200, 222, 226, 1.00)",
+          visitedStart: "rgba(233, 249, 251, 1.00)",
+          exit: "rgba(212, 73, 76, 1.00)",
+          clear: "rgba(242, 250, 252, 1.00)",
+        };
+        break;
+      }
+      default: {
+        cellColors = {
+          entry: "rgba(73, 96, 230, 1.00)",
+          path: "rgba(189, 201, 237, 1.00)",
+          pathBorder: "rgba(249, 216, 190, 1.00)",
+          wall: "rgba(121, 87, 62, 1.00)",
+          visited: "rgba(204, 165, 122, 1.00)",
+          visitedMid: "rgba(227, 197, 119, 1.00)",
+          visitedStart: "rgba(234, 222, 171, 1.00)",
+          exit: "rgba(212, 73, 76, 1.00)",
+          clear: "rgba(249, 238, 215, 1.00)",
+        };
+        break;
+      }
+    }
+    const root = document.querySelector(":root") as HTMLElement;
+
+    root.style.setProperty("--pf-cell-size", cellSize + "px");
+
+    root.style.setProperty("--pf-cell-entry", cellColors.entry);
+    root.style.setProperty("--pf-cell-path", cellColors.path);
+    root.style.setProperty("--pf-cell-path-border", cellColors.pathBorder);
+    root.style.setProperty("--pf-cell-wall", cellColors.wall);
+    root.style.setProperty("--pf-cell-visited", cellColors.visited);
+    root.style.setProperty("--pf-cell-visited-mid", cellColors.visitedMid);
+    root.style.setProperty("--pf-cell-visited-start", cellColors.visitedStart);
+    root.style.setProperty("--pf-cell-exit", cellColors.exit);
+    root.style.setProperty("--pf-cell-clear", cellColors.clear);
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.leftSection}>
@@ -167,6 +244,7 @@ export default function HomeDescription() {
                 onClick={() => {
                   setSelectedMap(index);
                   dispatch(setScene(maps[index].name));
+                  setMapColorSeries(maps[index].name);
                 }}
               >
                 {map.com}
